@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root@localhost:3306/konser"
+  // root: username dari database
+  // localhost: nama server database
+  // 3306: port database
+  // konser: nama database
+}
+
+model Events {
+  eventId   Int       @id @default(autoincrement())
+  eventName String    @default("")
+  eventDate DateTime  @default(now())
+  venue     String    @default("")
+  price     Int       @default(0)
+  createAt  DateTime  @default(now())
+  // waktu data dibuat/otomatis
+  updateAt  DateTime  @default(now())
+  //waktu data diubah
+  Seats     Seats[]
+  tickets   tickets[]
+}
+
+model Seats {
+  seatId        Int       @id @default(autoincrement())
+  eventId       Int       @default(0)
+  rowNumber     String    @default("")
+  seatNum       String    @default("")
+  status        Boolean   @default(true)
+  createAt      DateTime  @default(now())
+  updateAt      DateTime  @default(now())
+  event_details Events    @relation(fields: [eventId], references: [eventId])
+  tickets       tickets[]
+}
+
+model tickets {
+  ticketId       Int      @id @default(autoincrement())
+  eventId        Int      @default(0)
+  userId         Int      @default(0)
+  seatId         Int      @default(0)
+  bookedDate     DateTime @default(now())
+  createAt       DateTime @default(now())
+  updateAt       DateTime @default(now())
+  seats_details  Seats    @relation(fields: [seatId], references: [seatId])
+  events_details Events   @relation(fields: [eventId], references: [eventId])
+  user_detail    user     @relation(fields: [userId], references: [userId])
+}
+
+model user {
+  userId    Int       @id @default(autoincrement())
+  firstname String    @default("")
+  lastname  String    @default("")
+  email     String    @default("")
+  password  String    @default("")
+  role      role      @default(user)
+  createAt  DateTime  @default(now())
+  updateAt  DateTime  @default(now())
+  tickets   tickets[]
+}
+
+enum role {
+  user
+  admin
+}

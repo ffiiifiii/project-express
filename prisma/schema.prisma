@@ -24,15 +24,15 @@ model Events {
   // waktu data dibuat/otomatis
   updateAt  DateTime  @default(now())
   //waktu data diubah
-  Seats     Seats[]
+  seats     seats[]
   tickets   tickets[]
 }
 
-model Seats {
+model seats {
   seatId        Int       @id @default(autoincrement())
   eventId       Int       @default(0)
-  rowNumber     String    @default("")
-  seatNum       String    @default("")
+  rowNum        String    @default("")
+  seatNum       Int    @default(0)
   status        Boolean   @default(true)
   createAt      DateTime  @default(now())
   updateAt      DateTime  @default(now())
@@ -48,7 +48,7 @@ model tickets {
   bookedDate     DateTime @default(now())
   createAt       DateTime @default(now())
   updateAt       DateTime @default(now())
-  seats_details  Seats    @relation(fields: [seatId], references: [seatId])
+  seats_details  seats    @relation(fields: [seatId], references: [seatId])
   events_details Events   @relation(fields: [eventId], references: [eventId])
   user_detail    user     @relation(fields: [userId], references: [userId])
 }

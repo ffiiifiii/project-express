@@ -6,6 +6,11 @@ import express, { Request, Response } from "express"
 import { validateCube } from "./middleware/validateCube"
 import routeBangunDatar from "./route/bangunDatar"
 import routeBangunRuang from "./route/bangunRuang"
+import routeEvents from "./route/eventsRoute"
+import routeUser from "./route/userRoute"
+import routeTikets from "./route/tiketsRoute"
+import routeSeats from "./route/seatsRouter"
+
 
 //**buat wadah untuk inisiasi express */
 const app = express()
@@ -82,6 +87,14 @@ app.use(routeBangunDatar)
 
 /**register route of bangun ruang */
 app.use(routeBangunRuang)
+
+app.use(routeEvents)
+
+app.use(routeUser)
+
+app.use(routeTikets)
+
+app.use(routeSeats)
 
 //**run */
 app.listen(PORT,()=>{
